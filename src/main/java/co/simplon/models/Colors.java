@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import co.simplon.tools.Material;
 
 @Entity
@@ -32,6 +34,7 @@ public class Colors {
 	 * LINK(S) with other(s) entities
 	 ********************************/
 	@ManyToMany(mappedBy="colors")
+	@JsonIgnore
 	private Set<Items> items = new HashSet<Items>();
 
 	/************************

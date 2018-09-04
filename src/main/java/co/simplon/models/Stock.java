@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "stockage")
 public class Stock implements Serializable{
@@ -25,6 +27,7 @@ public class Stock implements Serializable{
 	@Id
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_item", foreignKey = @ForeignKey(name = "fk_item"), nullable = false)
+	@JsonIgnore
 	private Items item;
 	
 	/************************

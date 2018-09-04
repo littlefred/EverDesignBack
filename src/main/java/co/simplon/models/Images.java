@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "images")
 public class Images {
@@ -27,6 +29,7 @@ public class Images {
 	 ********************************/
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_item", foreignKey = @ForeignKey(name = "fk_item"), nullable = false)
+	@JsonIgnore
 	private Items item;
 	
 	/************************

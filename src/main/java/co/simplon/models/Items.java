@@ -38,9 +38,9 @@ public class Items {
 	private Double price;
 	@Column(name = "discountPrice", precision = 8, scale = 2)
 	private Double discountPrice;
-	@Column(name = "informations", nullable = false, length = 255)
-	private String technicalInformations;
-	@Column(name = "description", length = 255)
+	@Column(name = "informations", nullable = false, length = 1000)
+	private String informations;
+	@Column(name = "description", length = 1000)
 	private String description;
 
 	/*********************************
@@ -145,7 +145,7 @@ public class Items {
 	 * @return the technicalInformations
 	 */
 	public String getTechnicalInformations() {
-		return technicalInformations;
+		return informations;
 	}
 
 	/**
@@ -153,7 +153,7 @@ public class Items {
 	 *            the technicalInformations to set
 	 */
 	public void setTechnicalInformations(String technicalInformations) {
-		this.technicalInformations = technicalInformations;
+		this.informations = technicalInformations;
 	}
 
 	/**
