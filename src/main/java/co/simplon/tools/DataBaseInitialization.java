@@ -294,7 +294,7 @@ public class DataBaseInitialization implements ApplicationListener<ContextRefres
 									i.setCategory(tempCat);
 									i.setPrice(tempPrice);
 									i.setDiscountPrice(tempDiscountPrice);
-									i.setTechnicalInformations(fileLine[5]);
+									i.setInformations(fileLine[5]);
 									i.setDescription(fileLine[6]);
 									tempStock.setItem(i);
 									i.setStockage(tempStock);
@@ -312,7 +312,7 @@ public class DataBaseInitialization implements ApplicationListener<ContextRefres
 									i.setName(tempName);
 									i.setPrice(tempPrice);
 									i.setDiscountPrice(tempDiscountPrice);
-									i.setTechnicalInformations(fileLine[5]);
+									i.setInformations(fileLine[5]);
 									i.setDescription(fileLine[6]);
 									tempStock.setItem(i);
 									i.setStockage(tempStock);

@@ -142,18 +142,18 @@ public class Items {
 	}
 
 	/**
-	 * @return the technicalInformations
+	 * @return the informations
 	 */
-	public String getTechnicalInformations() {
+	public String getInformations() {
 		return informations;
 	}
 
 	/**
-	 * @param technicalInformations
+	 * @param informations
 	 *            the technicalInformations to set
 	 */
-	public void setTechnicalInformations(String technicalInformations) {
-		this.informations = technicalInformations;
+	public void setInformations(String informations) {
+		this.informations = informations;
 	}
 
 	/**
