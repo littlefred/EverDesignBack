@@ -35,9 +35,9 @@ public class Items {
 	@Column(name = "reference", nullable = false, length = 30)
 	private String reference;
 	@Column(name = "price", nullable = false, precision = 8, scale = 2)
-	private Double price;
+	private int price;
 	@Column(name = "discountPrice", precision = 8, scale = 2)
-	private Double discountPrice;
+	private int discountPrice;
 	@Column(name = "informations", nullable = false, length = 1000)
 	private String informations;
 	@Column(name = "description", length = 1000)
@@ -114,7 +114,7 @@ public class Items {
 	/**
 	 * @return the price
 	 */
-	public Double getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
@@ -122,14 +122,14 @@ public class Items {
 	 * @param price
 	 *            the price to set
 	 */
-	public void setPrice(Double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
 	/**
 	 * @return the discountPrice
 	 */
-	public Double getDiscountPrice() {
+	public int getDiscountPrice() {
 		return discountPrice;
 	}
 
@@ -137,7 +137,7 @@ public class Items {
 	 * @param discountPrice
 	 *            the discountPrice to set
 	 */
-	public void setDiscountPrice(Double discountPrice) {
+	public void setDiscountPrice(int discountPrice) {
 		this.discountPrice = discountPrice;
 	}
 

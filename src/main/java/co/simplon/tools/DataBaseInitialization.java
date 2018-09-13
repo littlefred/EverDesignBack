@@ -272,9 +272,9 @@ public class DataBaseInitialization implements ApplicationListener<ContextRefres
 								tempCat = cat.get();
 							}
 							// correct formating of price
-							Double tempPrice = Double.valueOf(fileLine[3]);
+							int tempPrice = Integer.valueOf(fileLine[3]);
 							// correct formating of price
-							Double tempDiscountPrice = Double.valueOf(fileLine[4]);
+							int tempDiscountPrice = Integer.valueOf(fileLine[4]);
 							// correct formating of stock
 							Stock tempStock = new Stock(Integer.parseInt(fileLine[7]));
 							// correct formating of list of images
@@ -312,6 +312,8 @@ public class DataBaseInitialization implements ApplicationListener<ContextRefres
 									i.setName(tempName);
 									i.setPrice(tempPrice);
 									i.setDiscountPrice(tempDiscountPrice);
+									i.setCategory(tempCat);
+									i.setReference(tempReference);
 									i.setInformations(fileLine[5]);
 									i.setDescription(fileLine[6]);
 									tempStock.setItem(i);
