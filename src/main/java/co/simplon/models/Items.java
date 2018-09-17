@@ -18,9 +18,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -42,25 +44,31 @@ public class Items {
 	private String informations;
 	@Column(name = "description", length = 1000)
 	private String description;
+	@Column(name = "qty", length = 6)
+	private int quantity = 0;
 
 	/*********************************
 	 * LINK(S) with other(s) entities
 	 ********************************/
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_category", foreignKey = @ForeignKey(name = "fk_category"), nullable = false)
+	@JsonManagedReference(value = "listOfItems")
 	private Categories category;
 
-	@OneToOne(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Stock stockage;
-
 	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference(value = "item")
 	private List<Images> listImagesOfItem = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "ITEM_COLORS", joinColumns = {
 			@JoinColumn(name = "FK_ITEM", referencedColumnName = "ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "FK_COLORS", referencedColumnName = "ID") })
+	@JsonManagedReference(value = "item")
 	private Set<Colors> colors = new HashSet<Colors>();
+	
+	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonBackReference(value = "item")
+	private List<OrdersContent> listOrders = new ArrayList<>();
 
 	/************************
 	 * GETTERS AND SETTERS
@@ -199,6 +207,9 @@ public class Items {
 	 */
 	public void setListImagesOfItem(List<Images> listImagesOfItem) {
 		this.listImagesOfItem = listImagesOfItem;
+		for (Images image : listImagesOfItem) {
+			image.setItem(this);
+		}
 	}
 
 	/**
@@ -216,17 +227,31 @@ public class Items {
 	}
 
 	/**
-	 * @return the stockage
+	 * @return the listOrders
 	 */
-	public Stock getStockage() {
-		return stockage;
+	public List<OrdersContent> getListOrders() {
+		return listOrders;
 	}
 
 	/**
-	 * @param stockage the stockage to set
+	 * @param listOrders the listOrders to set
 	 */
-	public void setStockage(Stock stockage) {
-		this.stockage = stockage;
+	public void setListOrders(List<OrdersContent> listOrders) {
+		this.listOrders = listOrders;
+	}
+
+	/**
+	 * @return the quantity
+	 */
+	public int getQuantity() {
+		return quantity;
+	}
+
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 }

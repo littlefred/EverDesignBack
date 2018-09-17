@@ -12,7 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import co.simplon.tools.Material;
 
@@ -34,7 +34,7 @@ public class Colors {
 	 * LINK(S) with other(s) entities
 	 ********************************/
 	@ManyToMany(mappedBy="colors")
-	@JsonIgnore
+	@JsonBackReference(value = "listImagesOfItem")
 	private Set<Items> items = new HashSet<Items>();
 
 	/************************

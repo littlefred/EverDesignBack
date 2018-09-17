@@ -13,33 +13,31 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name = "images")
-public class Images {
+@Table(name = "ordersContent")
+public class OrdersContent {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "image")
-	@SequenceGenerator(name = "image", sequenceName = "image_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ordersContent")
+	@SequenceGenerator(name = "ordersContent", sequenceName = "ordersContent_seq", allocationSize = 1)
 	private Long id;
-	@Column(name = "name", nullable = false, length = 50)
-	private String image;
-	
+	@Column(name = "quantity", nullable = false)
+	private int quantity;
+
 	/*********************************
 	 * LINK(S) with other(s) entities
 	 ********************************/
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_item", foreignKey = @ForeignKey(name = "fk_item"), nullable = false)
-	@JsonBackReference(value = "colors")
+	@JsonManagedReference(value = "listOrders")
 	private Items item;
-	
-	/************************
-	 * CONSTRUCTORS
-	 ***********************/
-	public Images() {}
-	
-	public Images(String image) {
-		this.image = image;
-	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_order", foreignKey = @ForeignKey(name = "fk_order"), nullable = false)
+	@JsonBackReference(value="")
+	private Orders order;
 	
 	/************************
 	 * GETTERS AND SETTERS
@@ -60,17 +58,17 @@ public class Images {
 	}
 
 	/**
-	 * @return the image
+	 * @return the quantity
 	 */
-	public String getImage() {
-		return image;
+	public int getQuantity() {
+		return quantity;
 	}
 
 	/**
-	 * @param image the image to set
+	 * @param quantity the quantity to set
 	 */
-	public void setImage(String image) {
-		this.image = image;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	/**
@@ -85,6 +83,20 @@ public class Images {
 	 */
 	public void setItem(Items item) {
 		this.item = item;
+	}
+
+	/**
+	 * @return the order
+	 */
+	public Orders getOrder() {
+		return order;
+	}
+
+	/**
+	 * @param order the order to set
+	 */
+	public void setOrder(Orders order) {
+		this.order = order;
 	}
 
 }

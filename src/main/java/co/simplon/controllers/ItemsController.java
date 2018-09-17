@@ -21,7 +21,7 @@ public class ItemsController {
 	@Inject
 	private ItemsServices itemsServices;
 	
-	// method to find all categories
+	// method to find all items
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<Items>> findAll() {
@@ -39,11 +39,6 @@ public class ItemsController {
 	public ResponseEntity<Integer> getStock(@PathVariable("id") Long id) {
 		int stockItem = itemsServices.stock(id);
 		return new ResponseEntity<Integer>(stockItem, HttpStatus.OK);
-		/*if (stockItem <= 0) {
-			return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<Integer>(stockItem, HttpStatus.OK);
-		}*/
 	}
 
 }

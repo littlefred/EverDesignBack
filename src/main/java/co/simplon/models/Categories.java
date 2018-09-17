@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "categories")
@@ -31,7 +31,7 @@ public class Categories implements Comparable<Object> {
 	 * LINK(S) with other(s) entities
 	 ********************************/
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
+	@JsonBackReference(value = "category")
 	private Set<Items> listOfItems = new TreeSet<>();
 	
 	/************************

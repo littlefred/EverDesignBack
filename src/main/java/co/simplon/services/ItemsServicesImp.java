@@ -16,7 +16,7 @@ public class ItemsServicesImp implements ItemsServices {
 	@Inject
 	private ItemsRepository itemsRepository;
 
-	// method to find all categories
+	// method to find all items
 	@Override
 	public List<Items> findAll() {
 		return this.itemsRepository.findAll();
@@ -25,8 +25,7 @@ public class ItemsServicesImp implements ItemsServices {
 	// method to get stock about an item
 	@Override
 	public int stock(Long idItem) {
-		// TODO Auto-generated method stub
-		return this.itemsRepository.getOne(idItem).getStockage().getQuantity();
+		return this.itemsRepository.findById(idItem).get().getQuantity();
 	}
 
 }
