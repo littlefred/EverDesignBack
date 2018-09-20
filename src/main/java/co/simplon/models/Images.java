@@ -29,7 +29,7 @@ public class Images {
 	 ********************************/
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_item", foreignKey = @ForeignKey(name = "fk_item"), nullable = false)
-	@JsonBackReference(value = "colors")
+	@JsonBackReference(value = "linkImages")
 	private Items item;
 	
 	/************************

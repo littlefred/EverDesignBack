@@ -1,1 +1,2 @@
-test;basicuser;01/01/1980;basicuser@test.fr;password;123232323;1 rue test;paris;75001;France;user_valid;01/08/2018
+test;basicuser;01/01/1980;basicuser@test.fr;password;0123232323;1 rue test;paris;75001;France;user_valid;01/08/2018
+admin;adminuser;01/02/1980;adminuser@test.fr;password;0122223333;2 rue test;paris;75001;france;user_admin;01/09/2018 00:00

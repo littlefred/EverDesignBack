@@ -12,10 +12,10 @@ import co.simplon.models.Items;
 @Repository
 @Named
 public interface ItemsRepository extends JpaRepository<Items, Long> {
-	// method to find a category by this name
+	// method to find a item by this name
 	public Optional<Items> findByName(String name);
 
-	// method to find a category by this image
+	// method to find a item by this reference
 	public Optional<Items> findByReference(String reference);
 
 }

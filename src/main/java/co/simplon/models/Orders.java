@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import co.simplon.tools.Status;
 
@@ -30,11 +32,12 @@ public class Orders {
 	@SequenceGenerator(name = "order", sequenceName = "order_seq", allocationSize = 1)
 	private Long id;
 	@Column(name = "orderNumber", nullable = false, length = 50)
-	private String orderNumber;
+	private String numberOrder;
 	@Column(name = "creationDate", nullable = false)
 	private Date dateOfCreation;
 	@Column(name = "stepDate", nullable = false)
 	private Date dateOfStep;
+	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false)
 	private Status status;
 	@Column(name = "address", nullable = false, length = 400)
@@ -46,12 +49,11 @@ public class Orders {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_user", foreignKey = @ForeignKey(name = "fk_user"), nullable = false)
-	@JsonBackReference(value = "listOrders")
 	private Users user;
 	
-	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference(value = "item")
-	private List<OrdersContent> listOrders = new ArrayList<>();
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference(value = "linkOrderContent")
+	private List<OrdersContent> listOrderItems = new ArrayList<>();
 	
 	/************************
 	 * GETTERS AND SETTERS
@@ -74,15 +76,15 @@ public class Orders {
 	/**
 	 * @return the orderNumber
 	 */
-	public String getOrderNumber() {
-		return orderNumber;
+	public String getNumberOrder() {
+		return numberOrder;
 	}
 
 	/**
 	 * @param orderNumber the orderNumber to set
 	 */
-	public void setOrderNumber(String orderNumber) {
-		this.orderNumber = orderNumber;
+	public void setNumberOrder(String numberOrder) {
+		this.numberOrder = numberOrder;
 	}
 
 	/**
@@ -158,15 +160,15 @@ public class Orders {
 	/**
 	 * @return the listOrders
 	 */
-	public List<OrdersContent> getListOrders() {
-		return listOrders;
+	public List<OrdersContent> getListOrderItems() {
+		return listOrderItems;
 	}
 
 	/**
 	 * @param listOrders the listOrders to set
 	 */
-	public void setListOrders(List<OrdersContent> listOrders) {
-		this.listOrders = listOrders;
+	public void setListOrderItems(List<OrdersContent> listOrderItems) {
+		this.listOrderItems = listOrderItems;
 	}
 	
 }

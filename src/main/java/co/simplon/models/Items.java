@@ -21,7 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -52,22 +52,21 @@ public class Items {
 	 ********************************/
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_category", foreignKey = @ForeignKey(name = "fk_category"), nullable = false)
-	@JsonManagedReference(value = "listOfItems")
+	// @JsonManagedReference(value = "linkCategory")
 	private Categories category;
 
 	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonManagedReference(value = "item")
+	@JsonManagedReference(value = "linkImages")
 	private List<Images> listImagesOfItem = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "ITEM_COLORS", joinColumns = {
 			@JoinColumn(name = "FK_ITEM", referencedColumnName = "ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "FK_COLORS", referencedColumnName = "ID") })
-	@JsonManagedReference(value = "item")
 	private Set<Colors> colors = new HashSet<Colors>();
 	
-	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference(value = "item")
+	@OneToMany(mappedBy = "items", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
 	private List<OrdersContent> listOrders = new ArrayList<>();
 
 	/************************

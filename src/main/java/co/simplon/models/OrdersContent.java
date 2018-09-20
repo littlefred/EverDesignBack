@@ -13,7 +13,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "ordersContent")
@@ -23,7 +22,7 @@ public class OrdersContent {
 	@SequenceGenerator(name = "ordersContent", sequenceName = "ordersContent_seq", allocationSize = 1)
 	private Long id;
 	@Column(name = "quantity", nullable = false)
-	private int quantity;
+	private int qty;
 
 	/*********************************
 	 * LINK(S) with other(s) entities
@@ -31,12 +30,11 @@ public class OrdersContent {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_item", foreignKey = @ForeignKey(name = "fk_item"), nullable = false)
-	@JsonManagedReference(value = "listOrders")
-	private Items item;
+	private Items items;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_order", foreignKey = @ForeignKey(name = "fk_order"), nullable = false)
-	@JsonBackReference(value="")
+	@JsonBackReference(value="linkOrderContent")
 	private Orders order;
 	
 	/************************
@@ -60,29 +58,29 @@ public class OrdersContent {
 	/**
 	 * @return the quantity
 	 */
-	public int getQuantity() {
-		return quantity;
+	public int getQty() {
+		return qty;
 	}
 
 	/**
 	 * @param quantity the quantity to set
 	 */
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setQty(int quantity) {
+		this.qty = quantity;
 	}
 
 	/**
 	 * @return the item
 	 */
 	public Items getItem() {
-		return item;
+		return items;
 	}
 
 	/**
 	 * @param item the item to set
 	 */
 	public void setItem(Items item) {
-		this.item = item;
+		this.items = item;
 	}
 
 	/**

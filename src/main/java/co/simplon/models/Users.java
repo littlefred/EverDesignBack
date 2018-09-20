@@ -15,7 +15,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import co.simplon.tools.Countries;
 import co.simplon.tools.Positions;
@@ -58,7 +57,7 @@ public class Users {
 	 ********************************/
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonManagedReference(value = "user")
+	@JsonIgnore
 	private List<Orders> listOrders = new ArrayList<>();
 	
 	/************************

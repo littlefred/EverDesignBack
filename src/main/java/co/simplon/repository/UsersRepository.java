@@ -14,5 +14,7 @@ import co.simplon.models.Users;
 public interface UsersRepository extends JpaRepository<Users, Long> {
 	// method to find a user by mail
 	public Optional<Users> findByMail(String mail);
+	// method to find a user by mail and password
+	public Optional<Users> findByMailAndPassword(String mail, int pwd);
 
 }

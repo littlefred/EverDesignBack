@@ -12,10 +12,10 @@ import co.simplon.models.Colors;
 @Repository
 @Named
 public interface ColorsRepository extends JpaRepository<Colors, Long> {
-	// method to find a category by this name
+	// method to find a color by this name
 	public Optional<Colors> findByName(String name);
 
-	// method to find a category by this image
+	// method to find a color by this image
 	public Optional<Colors> findBySticker(String sticker);
 
 }

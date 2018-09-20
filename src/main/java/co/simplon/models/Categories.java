@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "categories")
@@ -31,7 +31,7 @@ public class Categories implements Comparable<Object> {
 	 * LINK(S) with other(s) entities
 	 ********************************/
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference(value = "category")
+	@JsonIgnore
 	private Set<Items> listOfItems = new TreeSet<>();
 	
 	/************************
@@ -91,6 +91,23 @@ public class Categories implements Comparable<Object> {
 	 */
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	/**
+	 * @return the listOfItems
+	 */
+	public Set<Items> getListOfItems() {
+		return listOfItems;
+	}
+
+	/**
+	 * @param listOfItems the listOfItems to set
+	 */
+	public void setListOfItems(Set<Items> listOfItems) {
+		this.listOfItems = listOfItems;
+		for (Items item : listOfItems) {
+			item.setCategory(this);
+		}
 	}
 
 	// method to compare categories with name, used to do a TreeSet
