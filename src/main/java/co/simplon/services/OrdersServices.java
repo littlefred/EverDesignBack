@@ -16,5 +16,11 @@ public interface OrdersServices {
 	
 	// method to get an order in progress before paid
 	public Optional<Orders> getOrderPendingPayment(Long userId);
+	
+	// method to update status of an order
+	public Orders updateStatusOrder(Orders order);
+	
+	// method to delete order before to be paid
+	public boolean deleteOrderBeforePaid(Long orderId, Long userId);
 
 }

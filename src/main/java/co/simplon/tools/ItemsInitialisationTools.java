@@ -36,7 +36,6 @@ public class ItemsInitialisationTools {
 		List<Items> listOfItems = new ArrayList<>();// open list to note colors to upload in DBB
 		// initialisation of counters to follow the result of insertion file
 		int nbItemsLoaded = 0;
-		int nbItemsUpdated = 0;
 		int nbItemsUntreated = 0;
 		int nbItems = file.size();
 		int nbLine = 0;
@@ -49,9 +48,8 @@ public class ItemsInitialisationTools {
 				Optional<Items> itemInBase = this.itemsRepository.findByReference(tempItem.getReference());
 				if (itemInBase.isPresent()) {
 					if (itemInBase.get().getCategory().getId() == tempItem.getCategory().getId()) {
-						tempItem.setId(itemInBase.get().getId());
-						listOfItems.add(tempItem);
-						nbItemsUpdated++;
+						nbItemsUntreated++;
+						lines += "- " + nbLine + "(reference exists in the same category) ";
 					} else {
 						nbItemsUntreated++;
 						lines += "- " + nbLine + "(reference exists in another category) ";
@@ -68,9 +66,7 @@ public class ItemsInitialisationTools {
 		// after add items that should be saved we write a resume of actions
 		this.itemsRepository.saveAll(listOfItems);
 		System.out.println(nbItemsLoaded + " items loaded");
-		System.out.println(nbItemsUpdated + " items updated");
-		int nbTotal = nbItemsLoaded + nbItemsUpdated;
-		System.out.println("result : " + nbTotal + " items out of " + nbItems);
+		System.out.println("result : " + nbItemsLoaded + " items out of " + nbItems);
 		if (!lines.equals("")) {
 			System.out.println("==> " + nbItemsUntreated + " items untreated :");
 			System.out.println("Lines " + lines);

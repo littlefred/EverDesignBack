@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.models.Orders;
 import co.simplon.services.OrdersServices;
+import co.simplon.tools.Status;
 
 @RestController
 @RequestMapping("/orders")
@@ -46,6 +47,30 @@ public class OrdersController {
 			return new ResponseEntity<Orders>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<Orders>(orderFound.get(), HttpStatus.CREATED);
+		}
+	}
+	
+	// method to update order status
+	@RequestMapping(method = RequestMethod.PUT)
+	@ResponseBody
+	public ResponseEntity<Orders> updateStatus(@RequestBody Orders order) {
+		Orders updatedOrder = this.ordersServices.updateStatusOrder(order);
+		if (updatedOrder.getStatus() == Status.NOVALIDATED) {
+			return new ResponseEntity<Orders>(HttpStatus.NOT_MODIFIED);
+		} else {
+			return new ResponseEntity<Orders>(updatedOrder, HttpStatus.OK);
+		}
+	}
+	
+	// method to delete an order in progress before payment
+	@RequestMapping(method = RequestMethod.DELETE)
+	@ResponseBody
+	public ResponseEntity<Boolean> deleteOrderBeforePaid(@RequestParam Long orderId, @RequestParam Long userId) {
+		boolean result = this.ordersServices.deleteOrderBeforePaid(orderId, userId);
+		if (result) {
+			return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Boolean>(HttpStatus.NOT_MODIFIED);
 		}
 	}
 
