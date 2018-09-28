@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import co.simplon.tools.Countries;
@@ -32,13 +33,13 @@ public class Users {
 	private String lastName;
 	@Column(name = "birthDate", nullable = false)
 	private Date dateOfBirth;
-	@Column(name = "mail", nullable = false, length = 100)
+	@Column(name = "mail", nullable = false, length = 100, unique = true)
 	private String mail;
 	@Column(name = "password", nullable = false, length = 25)
-	@JsonIgnore
-	private int password;
+	@JsonBackReference
+	private String password;
 	@Column(name = "phone", nullable = false, length = 15)
-	private int phone;
+	private String phone;
 	@Column(name = "street", nullable = false, length = 100)
 	private String street;
 	@Column(name = "city", nullable = false, length = 165)
@@ -137,28 +138,28 @@ public class Users {
 	/**
 	 * @return the password
 	 */
-	public int getPassword() {
-		return password;
+	public String getPassword() {
+		return this.password;
 	}
 
 	/**
 	 * @param password the password to set
 	 */
-	public void setPassword(int password) {
-		this.password = password;
+	public void setPassword(String password) {
+		this.password = String.valueOf(password.hashCode());
 	}
 
 	/**
 	 * @return the phone
 	 */
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
 	/**
 	 * @param phone the phone to set
 	 */
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

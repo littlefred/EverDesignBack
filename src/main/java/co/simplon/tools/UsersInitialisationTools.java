@@ -94,8 +94,8 @@ public class UsersInitialisationTools {
 		tempUser.setDateOfBirth(tempBirthDate);
 		tempUser.setDateOfCreation(tempCreationDate);
 		tempUser.setMail(informations[3]);
-		tempUser.setPassword(informations[4].hashCode());
-		tempUser.setPhone(Integer.parseInt(informations[5]));
+		tempUser.setPassword(informations[4]);
+		tempUser.setPhone(informations[5]);
 		tempUser.setStreet(informations[6]);
 		tempUser.setCity(informations[7].toUpperCase());
 		tempUser.setZipCode(informations[8].toUpperCase());
