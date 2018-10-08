@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import co.simplon.models.Categories;
 import co.simplon.repository.CategoriesRepository;
 
 @Service
+@Named
 public class CategoriesServicesImp implements CategoriesServices {
 	@Inject
 	private CategoriesRepository categoriesRepository;

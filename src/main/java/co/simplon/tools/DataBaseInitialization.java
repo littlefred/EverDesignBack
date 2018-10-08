@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -16,9 +18,51 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
+import co.simplon.services.StorageServices;
+
 @Component
 public class DataBaseInitialization implements ApplicationListener<ContextRefreshedEvent> {
 	private final static char CSV_SEPARATOR = ';';
+	@Value( "${smtp.user}" )
+	private String userSMTP;
+	private static String userSMTPValue;
+	@Value( "${smtp.password}" )
+	private String passwordSMTP;
+	private static String passwordSMTPValue;
+	@Value( "${url.front}" )
+	private String urlFront;
+	private static String urlFrontValue;
+	@Value( "${id.keyEncrypt}" )
+	private int keyEncrypt;
+	private static int keyEncryptValue;
+
+	/**
+	 * @return the userSMTPValue
+	 */
+	public static String getUserSMTPValue() {
+		return userSMTPValue;
+	}
+
+	/**
+	 * @return the passwordSMTPValue
+	 */
+	public static String getPasswordSMTPValue() {
+		return passwordSMTPValue;
+	}
+
+	/**
+	 * @return the urlFrontValue
+	 */
+	public static String getUrlFrontValue() {
+		return urlFrontValue;
+	}
+
+	/**
+	 * @return the keyEncryptValue
+	 */
+	public static int getKeyEncryptValue() {
+		return keyEncryptValue;
+	}
 
 	@Inject
 	private UsersInitialisationTools usersTools;
@@ -28,9 +72,14 @@ public class DataBaseInitialization implements ApplicationListener<ContextRefres
 	private ColorsInitialisationTools colorsTools;
 	@Inject
 	private ItemsInitialisationTools itemsTools;
+	@Autowired
+	private StorageServices storageService;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
+		System.out.println("Pictures storage :");
+		boolean stockage = this.storageService.init();
+		if (stockage) {System.out.println("==> ready");} else {System.out.println("==> ERROR! : folder(s) do not ready");}
 		System.out.println("loading Database :");
 		System.out.println("==> file of Categories");
 		System.out.println(loadingDBCategories("src/main/resources/data/Categories"));
@@ -40,6 +89,12 @@ public class DataBaseInitialization implements ApplicationListener<ContextRefres
 		System.out.println(loadingDBItems("src/main/resources/data/Items"));
 		System.out.println("==> file of users");
 		System.out.println(loadingDBUsers("src/main/resources/data/Users.csv"));
+		System.out.println("Config Access SMTP");
+		userSMTPValue = this.userSMTP;
+		passwordSMTPValue = this.passwordSMTP;
+		keyEncryptValue = this.keyEncrypt;
+		urlFrontValue = this.urlFront;
+		System.out.println("OK");
 	}
 
 	/**

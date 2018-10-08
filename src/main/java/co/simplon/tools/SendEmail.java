@@ -15,19 +15,33 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+
+@Component
+// @PropertySource("classpath:foo.properties")
 public class SendEmail {
-	private static String userSMTP = "frederick.pareja.pf1@gmail.com"; // user SMTP to put in private config file
-	private static String passwordSMTP = "liteon80"; // password SMTP to put in private config file
-	private static String urlFront = "http://localhost:4200"; // path of callback button in mail to put in private config file
-	private static final int KEY_CODE_ID = 37; // number to code the userId in sending and reception mail
+	private String userSMTP = DataBaseInitialization.getUserSMTPValue(); // user SMTP
+	private String passwordSMTP = DataBaseInitialization.getPasswordSMTPValue(); // password SMTP
+	private String urlFront = DataBaseInitialization.getUrlFrontValue(); // beginning path of callback button in mail
+	private int keyEncryptId = DataBaseInitialization.getKeyEncryptValue(); // number to code the userId in sending and reception mail
+	//@Value("${smtp.user}")
+	//private String userSMTP;
+	//@Value("${smtp.password}")
+	//private String passwordSMTP;
+	//@Value("${url.front}")
+	//private String urlFront;
+	//@Value("${id.keyEncrypt}")
+	//private int keyEncryptId;
 	
 	/**
 	 * method to generate an encrypted id
 	 * @param id
 	 * @return
 	 */
-	public static Long generateID(Long id) {
-		return id + (id*KEY_CODE_ID);
+	public Long generateID(Long id) {
+		return id + (id*this.keyEncryptId);
 	}
 	
 	/**
@@ -35,7 +49,7 @@ public class SendEmail {
 	 * @param title
 	 * @return
 	 */
-	private static String defineSubjectMail(Title title) {
+	private String defineSubjectMail(Title title) {
 		String result = "";
 		if (title == Title.INSCRIPTION) {
 			result = "Inscription sur EverDesign";
@@ -48,7 +62,7 @@ public class SendEmail {
 	 * @param title
 	 * @return
 	 */
-	private static String defineTitle(Title title) {
+	private String defineTitle(Title title) {
 		String result = "";
 		if (title == Title.INSCRIPTION) {
 			result = "Bienvenue";
@@ -61,7 +75,7 @@ public class SendEmail {
 	 * @param title
 	 * @return
 	 */
-	private static String defineBody(Title title) {
+	private String defineBody(Title title) {
 		String result = "";
 		if (title == Title.INSCRIPTION) {
 			result = "Nous sommes heureux de vous compter parmis nos futurs clients.<br>";
@@ -75,11 +89,11 @@ public class SendEmail {
 	 * @param title
 	 * @return
 	 */
-	private static String defineLink(Title title, Long userId, String userMail) {
+	private String defineLink(Title title, Long userId, String userMail) {
 		String result = "";
 		userId = generateID(userId);
 		if (title == Title.INSCRIPTION) {
-			result = urlFront + "/account?ID=" + userId + "&login=" + userMail + "&callBack=confirmAccount";
+			result = this.urlFront + "/account?ID=" + userId + "&login=" + userMail + "&callBack=confirmAccount";
 		}
 		return result;
 	}
@@ -89,7 +103,7 @@ public class SendEmail {
 	 * @param title
 	 * @return
 	 */
-	private static String defineButton(Title title) {
+	private String defineButton(Title title) {
 		String result = "";
 		if (title == Title.INSCRIPTION) {
 			result = "Valider mon compte";
@@ -102,7 +116,7 @@ public class SendEmail {
 	 * @param title
 	 * @return
 	 */
-	private static String defineFooter(Title title) {
+	private String defineFooter(Title title) {
 		String result = "";
 		if (title == Title.INSCRIPTION) {
 			result = "";
@@ -115,7 +129,7 @@ public class SendEmail {
 	 * @param title
 	 * @return
 	 */
-	private static String templateInit(Title title, Long userId, String userMail) {
+	private String templateInit(Title title, Long userId, String userMail) {
 		String header ="<center><img src='http://localhost:4200/assets/imagesSites/logo.png' alt='logo du site EverDesign' style='height:30px;width:auto;'/></center>";
 		String bodyLineTitle = "<h2>" + defineTitle(title) + "</h2>";
 		String bodyLineText = "<p>" + defineBody(title) + "</p>";
@@ -140,12 +154,11 @@ public class SendEmail {
 	 * @param title
 	 * @return
 	 */
-	private static MimeMultipart basicTemplateMail(Title title, Long userId, String userMail) {
+	private MimeMultipart basicTemplateMail(Title title, Long userId, String userMail) {
 		MimeMultipart bodyTemplate = new MimeMultipart("related");
 		MimeBodyPart content = new MimeBodyPart();
 		String template = templateInit(title, userId, userMail);
 		try {
-			// bodyTemplate.addBodyPart(logoSite());
 		    content.setText(template, "UTF-8", "html");
 		    bodyTemplate.addBodyPart(content);
 		} catch (MessagingException e) {
@@ -158,7 +171,7 @@ public class SendEmail {
 	 * method to open a session on SMTP server
 	 * @return
 	 */
-	private static Session getSession() {
+	private Session getSession() {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP Host
 		props.put("mail.smtp.port", "587"); // TLS Port
@@ -181,7 +194,7 @@ public class SendEmail {
 	 * @throws MessagingException
 	 * @throws UnsupportedEncodingException
 	 */
-	private static MimeMessage configMessage(MimeMessage msg) throws MessagingException, UnsupportedEncodingException {
+	private MimeMessage configMessage(MimeMessage msg) throws MessagingException, UnsupportedEncodingException {
 		// set message headers
 		msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
 		msg.addHeader("format", "flowed");
@@ -196,7 +209,7 @@ public class SendEmail {
 	 * @param to
 	 * @param title
 	 */
-	public static void sendSimpleMessage(String to, Title title, Long userId) {
+	public boolean sendSimpleMessage(String to, Title title, Long userId) {
 		try {
 			Session session = getSession();
 			MimeMessage msg = new MimeMessage(session);
@@ -209,17 +222,11 @@ public class SendEmail {
 			System.out.println("Message is ready");
 			Transport.send(msg);
 			System.out.println("EMail Sent Successfully!!");
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
-
-	/**
-	 * main program to test the sending of mail
-	 * @param av
-	 */
-	/*public static void main(String[] av) {
-		SendEmail.sendSimpleMessage("whitetiger1980@hotmail.fr", Title.INSCRIPTION, 15L);
-	}*/
 
 }

@@ -1,5 +1,6 @@
 package co.simplon.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -16,16 +17,29 @@ public class ItemsServicesImp implements ItemsServices {
 	@Inject
 	private ItemsRepository itemsRepository;
 
-	// method to find all items
+	/**
+	 *  method to find all items
+	 */
 	@Override
 	public List<Items> findAll() {
 		return this.itemsRepository.findAll();
 	}
 
-	// method to get stock about an item
+	/**
+	 *  method to get stock about an item
+	 */
 	@Override
 	public int stock(Long idItem) {
 		return this.itemsRepository.findById(idItem).get().getQuantity();
+	}
+
+	@Override
+	public List<Items> save(Items[] items) {
+		List<Items> list = new ArrayList<>();
+		for(Items item : items) {
+			list.add(this.itemsRepository.save(item));
+		}
+		return list;
 	}
 
 }

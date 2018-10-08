@@ -52,9 +52,10 @@ public class UsersServicesImp implements UsersServices {
 	@Override
 	public int callBackMailControl(Long userId, String userMail) {
 		Optional<Users> userInBase = this.usersRepository.findByMail(userMail);
-		if(userInBase.isPresent()) {
-			Long idInBase = SendEmail.generateID(userInBase.get().getId());
-			if(idInBase == userId) {
+		if (userInBase.isPresent()) {
+			SendEmail tools = new SendEmail();
+			Long idInBase = tools.generateID(userInBase.get().getId());
+			if (idInBase == userId) {
 				Users userUpdated = userInBase.get();
 				userUpdated.setPosition(Positions.USER_VALID);
 				this.usersRepository.save(userUpdated);
@@ -72,18 +73,26 @@ public class UsersServicesImp implements UsersServices {
 	 */
 	@Override
 	public Users openingAccount(Users user) {
-		if(user.getId() == null && ControlsData.controlName(user.getLastName()) && ControlsData.controlName(user.getFirstName())
-				&& ControlsData.controlPhone(user.getPhone()) && ControlsData.controlDate(user.getDateOfBirth())
-				&& ControlsData.controlStreet(user.getStreet()) && ControlsData.controlZipCode(user.getZipCode()) 
-				&& ControlsData.controlCity(user.getCity()) && user.getCountry() != null && ControlsData.controlMail(user.getMail())
-				&& user.getPassword() != null && ControlsData.controlDate(user.getDateOfCreation())) {
+		if (user.getId() == null && ControlsData.controlName(user.getLastName())
+				&& ControlsData.controlName(user.getFirstName()) && ControlsData.controlPhone(user.getPhone())
+				&& ControlsData.controlDate(user.getDateOfBirth()) && ControlsData.controlStreet(user.getStreet())
+				&& ControlsData.controlZipCode(user.getZipCode()) && ControlsData.controlCity(user.getCity())
+				&& user.getCountry() != null && ControlsData.controlMail(user.getMail()) && user.getPassword() != null
+				&& ControlsData.controlDate(user.getDateOfCreation())) {
 			user.setPosition(Positions.USER_NOVALID);
 			Users userSaved = this.usersRepository.save(user);
 			if (userSaved == null) {
 				return null;
 			} else {
-				SendEmail.sendSimpleMessage(user.getMail(), Title.INSCRIPTION, user.getId());
-				return userSaved;
+				SendEmail tools = new SendEmail();
+				boolean sendInscriptionMail = tools.sendSimpleMessage(user.getMail(), Title.INSCRIPTION,
+						user.getId());
+				if (sendInscriptionMail) {
+					return userSaved;
+				} else {
+					this.usersRepository.deleteById(userSaved.getId());
+					return null;
+				}
 			}
 		} else {
 			System.err.println("RequestBody is not correct.");

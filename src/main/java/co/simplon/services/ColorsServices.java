@@ -6,15 +6,15 @@ import javax.inject.Named;
 
 import org.springframework.stereotype.Service;
 
-import co.simplon.models.Categories;
+import co.simplon.models.Colors;
 
 @Service
 @Named
-public interface CategoriesServices {
+public interface ColorsServices {
 	/**
 	 *  method to find all categories
 	 * @return
 	 */
-	public Set<Categories> findAll();
+	public Set<Colors> findAll();
 
 }

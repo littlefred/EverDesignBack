@@ -33,16 +33,16 @@ public class ColorsInitialisationTools {
 		// processing for each line of file
 		for (String[] line : file) {
 			nbLine++;
-			Optional<Colors> colorInBase = this.colorsRepository.findBySticker(line[2]);
+			Optional<Colors> colorInBase = this.colorsRepository.findBySticker(line[2].toLowerCase());
 			if (!colorInBase.isPresent()) {
 				Optional<Colors> colorInBase2 = this.colorsRepository.findByName(line[1].toLowerCase());
 				if (!colorInBase2.isPresent()) {
-					listOfColors.add(new Colors(Material.valueOf(line[0]), line[1], line[2]));
+					listOfColors.add(new Colors(Material.valueOf(line[0]), line[1].toLowerCase(), line[2].toLowerCase()));
 					nbColorsLoaded++;
 				} else {
 					Colors tempColor = colorInBase2.get();
 					if (tempColor.getMaterial().equals(Material.valueOf(line[0]))) {
-						tempColor.setSticker(line[2]);
+						tempColor.setSticker(line[2].toLowerCase());
 						listOfColors.add(tempColor);
 						nbColorsUpdated++;
 					} else {
