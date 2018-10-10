@@ -86,5 +86,35 @@ public class ControlsData {
 		String regex = "[a-zA-ZÀ-ÖØ-öø-ÿ0-9!?#=+&$@_.-]*";
 		return Pattern.matches(regex, mail);
 	}
+	
+	/**
+	 * control for category name
+	 * @param name
+	 * @return
+	 */
+	public static boolean controlCatName(String name) {
+		String regex = "[\\'a-zA-ZÀ-ÖØ-öø-ÿ0-9, -]*";
+		if (name.length() <= LengthDatas.DATA_CAT_NAME && Pattern.matches(regex, name)) {return true; } else {return false; }
+	}
+	
+	/**
+	 * control for picture name of category
+	 * @param name
+	 * @return
+	 */
+	public static boolean controlPicNameOfCat(String name) {
+		String regex = "[a-zA-Z0-9.]*";
+		if (name.length() <= LengthDatas.DATA_CAT_PICNAME && Pattern.matches(regex, name)) {return true; } else {return false; }
+	}
+	
+	/**
+	 * control for colors name
+	 * @param colorName
+	 * @return
+	 */
+	public static boolean controlColorName(String colorName) {
+		String regex = "[\\'a-zA-ZÀ-ÖØ-öø-ÿ, -]*";
+		if (colorName.length() <= LengthDatas.DATA_COLOR_NAME && Pattern.matches(regex, colorName)) {return true; } else {return false; }
+	}
 
 }

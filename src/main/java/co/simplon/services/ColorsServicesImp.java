@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import co.simplon.models.Colors;
 import co.simplon.repository.ColorsRepository;
+import co.simplon.tools.ControlsData;
 
 @Service
 @Named
@@ -27,6 +28,17 @@ public class ColorsServicesImp implements ColorsServices{
 		// Update the list to a hashSet
 		Set<Colors> finalList = new HashSet<Colors>(primaryList);
 		return finalList;
+	}
+
+	/**
+	 * method to save a new color
+	 */
+	@Override
+	public Colors save(Colors color) {
+		if (ControlsData.controlColorName(color.getName()) && ControlsData.controlPicNameOfCat(color.getSticker())) {
+			return this.colorsRepository.save(color);
+		}
+		return null;
 	}
 
 }

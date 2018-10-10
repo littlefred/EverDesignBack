@@ -22,9 +22,9 @@ public class Categories implements Comparable<Object> {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category")
 	@SequenceGenerator(name = "category", sequenceName = "category_seq", allocationSize = 1)
 	private Long id;
-	@Column(name = "name", nullable = false, length = 50)
+	@Column(name = "name", nullable = false, length = 50, unique = true)
 	private String name;
-	@Column(name = "image", nullable = false, length = 50)
+	@Column(name = "image", nullable = false, length = 50, unique = true)
 	private String image;
 	
 	/*********************************

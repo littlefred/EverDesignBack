@@ -21,7 +21,7 @@ public class Images {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "image")
 	@SequenceGenerator(name = "image", sequenceName = "image_seq", allocationSize = 1)
 	private Long id;
-	@Column(name = "name", nullable = false, length = 50)
+	@Column(name = "name", nullable = false, length = 50, unique = true)
 	private String image;
 	
 	/*********************************

@@ -31,7 +31,7 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order")
 	@SequenceGenerator(name = "order", sequenceName = "order_seq", allocationSize = 1)
 	private Long id;
-	@Column(name = "orderNumber", nullable = false, length = 50)
+	@Column(name = "orderNumber", nullable = false, length = 50, unique = true)
 	private String numberOrder;
 	@Column(name = "creationDate", nullable = false)
 	private Date dateOfCreation;

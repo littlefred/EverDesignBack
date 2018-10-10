@@ -16,5 +16,13 @@ public interface CategoriesServices {
 	 * @return
 	 */
 	public Set<Categories> findAll();
+	
+	/**
+	 * method to save a new category
+	 * 
+	 * @param category
+	 * @return
+	 */
+	public Categories save(Categories cat);
 
 }

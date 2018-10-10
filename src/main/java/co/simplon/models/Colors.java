@@ -27,7 +27,7 @@ public class Colors {
 	private Material material;
 	@Column(name = "name", nullable = false, length = 50)
 	private String name;
-	@Column(name = "sticker", nullable = false, length = 50)
+	@Column(name = "sticker", nullable = false, length = 50, unique = true)
 	private String sticker;
 
 	/*********************************

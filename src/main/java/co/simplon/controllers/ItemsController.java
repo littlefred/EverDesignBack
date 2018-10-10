@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import co.simplon.models.Colors;
 import co.simplon.models.Items;
+import co.simplon.services.ColorsServices;
 import co.simplon.services.ItemsServices;
 import co.simplon.services.StorageServices;
 
@@ -32,6 +34,8 @@ import co.simplon.services.StorageServices;
 public class ItemsController {
 	@Inject
 	private ItemsServices itemsServices;
+	@Inject
+	private ColorsServices colorsServices;
 	@Autowired
 	StorageServices storageService;
 
@@ -81,6 +85,22 @@ public class ItemsController {
 	}
 	
 	/**
+	 * method to upload only one image
+	 * @param files
+	 * @return
+	 */
+	@PostMapping("/uploadColors")
+	@ResponseBody
+	public ResponseEntity<Boolean> uploadFilesItems(@RequestParam("files") MultipartFile files) {
+		boolean result = this.storageService.storeOneFile(files, "color");
+		if(!result) {
+			return new ResponseEntity<Boolean>(result, HttpStatus.SERVICE_UNAVAILABLE);
+		} else {
+			return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+		}
+	}
+	
+	/**
 	 * method to save new item(s) after have load their images
 	 * @param body
 	 */
@@ -92,6 +112,21 @@ public class ItemsController {
 			return new ResponseEntity<List<Items>>(HttpStatus.NOT_MODIFIED);
 		} else {
 			return new ResponseEntity<List<Items>>(result, HttpStatus.OK);
+		}
+	}
+	
+	/**
+	 * method to save new item(s) after have load their images
+	 * @param body
+	 */
+	@PostMapping("/newColors")
+	@ResponseBody
+	public ResponseEntity<Colors>  saveColors(@RequestBody Colors body) {
+		Colors result = this.colorsServices.save(body);
+		if (result == null) {
+			return new ResponseEntity<Colors>(HttpStatus.NOT_MODIFIED);
+		} else {
+			return new ResponseEntity<Colors>(result, HttpStatus.OK);
 		}
 	}
 	

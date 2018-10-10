@@ -23,6 +23,14 @@ public interface StorageServices {
 	public Map<String, Boolean> store(MultipartFile[] files, String place);
 	
 	/**
+	 * method to upload one picture to a place
+	 * @param files
+	 * @param place
+	 * @return
+	 */
+	public Boolean storeOneFile(MultipartFile files, String place);
+	
+	/**
 	 * method to read a file since a place & name
 	 * @param filename
 	 * @param place

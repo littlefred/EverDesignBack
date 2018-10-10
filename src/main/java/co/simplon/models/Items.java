@@ -34,11 +34,11 @@ public class Items {
 	private Long id;
 	@Column(name = "name", nullable = false, length = 50)
 	private String name;
-	@Column(name = "reference", nullable = false, length = 30)
+	@Column(name = "reference", nullable = false, length = 30, unique = true)
 	private String reference;
-	@Column(name = "price", nullable = false, precision = 8, scale = 2)
+	@Column(name = "price", nullable = false, precision = 8)
 	private int price;
-	@Column(name = "discountPrice", precision = 8, scale = 2)
+	@Column(name = "discountPrice", precision = 8)
 	private int discountPrice;
 	@Column(name = "informations", nullable = false, length = 1000)
 	private String informations;
@@ -52,7 +52,6 @@ public class Items {
 	 ********************************/
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_category", foreignKey = @ForeignKey(name = "fk_category"), nullable = false)
-	// @JsonManagedReference(value = "linkCategory")
 	private Categories category;
 
 	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)

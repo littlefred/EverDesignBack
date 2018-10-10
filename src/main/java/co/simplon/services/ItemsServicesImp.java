@@ -33,10 +33,14 @@ public class ItemsServicesImp implements ItemsServices {
 		return this.itemsRepository.findById(idItem).get().getQuantity();
 	}
 
+	/**
+	 * method to save a list of new items
+	 */
 	@Override
 	public List<Items> save(Items[] items) {
 		List<Items> list = new ArrayList<>();
 		for(Items item : items) {
+			// TODO controls data
 			list.add(this.itemsRepository.save(item));
 		}
 		return list;

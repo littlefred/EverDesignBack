@@ -113,6 +113,37 @@ public class StorageServicesImp implements StorageServices {
 		}
 	}
 
+	/**
+	 * method to save one file
+	 */
+	@Override
+	public Boolean storeOneFile(MultipartFile files, String place) {
+		Path finalPlace = null;
+		if (place.equals("item")) {
+			finalPlace = this.rootLocationItems;
+		}
+		if (place.equals("category")) {
+			finalPlace = this.rootLocationCategories;
+		}
+		if (place.equals("color")) {
+			finalPlace = this.rootLocationColors;
+		}
+		if (files.getSize() > 2000000) {
+			return false;
+		}
+		if (!files.getContentType().equals("image/png") && !files.getContentType().equals("image/jpeg") && !files.getContentType().equals("image/jpg")) {
+			return false;
+		}
+		try {
+			Files.copy(files.getInputStream(), finalPlace.resolve(files.getOriginalFilename()));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("erreur sur l'enregistrement du fichier : " + files.getOriginalFilename());
+			return false;
+		}
+	}
+
 	// @Override
 	/*
 	 * public void deleteAll() {

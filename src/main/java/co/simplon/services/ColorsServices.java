@@ -16,5 +16,13 @@ public interface ColorsServices {
 	 * @return
 	 */
 	public Set<Colors> findAll();
+	
+	/**
+	 * method to save a new color
+	 * 
+	 * @param color
+	 * @return
+	 */
+	public Colors save(Colors color);
 
 }
