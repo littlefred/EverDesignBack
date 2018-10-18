@@ -15,8 +15,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -216,12 +214,11 @@ public class SendEmail {
 			msg = configMessage(msg);
 			msg.setContent(basicTemplateMail(title, userId, to));
 			msg.setSubject(defineSubjectMail(title), "UTF-8");
-			// msg.setText(body, "UTF-8", "html");
 			msg.setSentDate(new Date());
 			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
 			System.out.println("Message is ready");
 			Transport.send(msg);
-			System.out.println("EMail Sent Successfully!!");
+			System.out.println("Email Sent Successfully!!");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
